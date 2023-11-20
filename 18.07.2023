@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <regex>
+#include <Windows.h>
+using namespace std;
+
+const regex urlRegex(R"(https?://\S+)");
+const regex dateRegex(R"(\b\d{2}\.\d{2}\.\d{4}\b)");
+const regex htmlTagRegex(R"(<[^>]+>)");
+
+void findAndPrintMatches(const string& text, const regex& pattern) {
+    smatch match;
+    cout << "FounDed: ";
+    for (auto it = sregex_iterator(text.begin(), text.end(), pattern); it != sregex_iterator(); ++it) {
+        cout << (*it)[0] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    string text;
+    int choice;
+    while (true) {
+        cout << "Enter text: ";
+        getline(cin, text);
+
+        cout << "----- Menu -----" << endl;
+        cout << "1. Find URLs" << endl;
+        cout << "2. Check Valid Dates (DD.MM.YYYY)" << endl;
+        cout << "3. Find HTML Tags" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+        case 1:
+            system("CLS");
+            findAndPrintMatches(text, urlRegex);
+            Sleep(1000);
+            system("CLS");
+            break;
+        case 2:
+            system("CLS");
+            findAndPrintMatches(text, dateRegex);
+            Sleep(1000);
+            system("CLS");
+            break;
+        case 3:
+            system("CLS");
+            findAndPrintMatches(text, htmlTagRegex);
+            Sleep(1000);
+            system("CLS");
+            break;
+        default:
+            cout << "Invalid choice. Try again." << endl;
+            break;
+        }
+    }
+
+    return 0;
+}
